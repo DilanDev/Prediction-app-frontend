@@ -1,14 +1,16 @@
 <div class="app-container">
   <header>
-    <h1>{{ title }}</h1>
-    <p class="subtitle">Completa el cuestionario para predecir tu estado de animo</p>
+    <div class="header-content">
+      <h1>{{ title }}</h1>
+      <p class="subtitle">Completa el cuestionario para predecir tu estado de ánimo</p>
+    </div>
   </header>
-  
+
   <main>
     <app-sleep-questionnaire (submittedResults)="handleResults($event)"></app-sleep-questionnaire>
   </main>
-  
+
   <footer>
-    <p>&copy; {{ currentYear }} - Análisis de estado de animo</p>
+    <p>&copy; {{ currentYear }} - Análisis de estado de ánimo</p>
   </footer>
 </div>

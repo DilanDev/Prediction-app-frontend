@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
     imports: [
-    CommonModule, 
+    CommonModule,
     SleepQuestionnaireComponent,
   ],
 
@@ -18,9 +18,8 @@ import { CommonModule } from '@angular/common';
 export class AppComponent {
   title = 'Predicción de Estado de animo';
   currentYear = new Date().getFullYear();
-  
+
   handleResults(event: PredictionResponse): void {
     console.log('Resultados recibidos:', event);
-    // Aquí puedes manejar los resultados a nivel de aplicación si es necesario
   }
 }

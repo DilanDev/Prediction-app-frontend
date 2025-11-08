@@ -15,14 +15,14 @@ export class ResultsDisplayComponent implements OnInit, AfterViewInit {
   @Input() results!: PredictionResponse;
   @ViewChild('barChart') barChart!: ElementRef;
   @ViewChild('radarChart') radarChart!: ElementRef;
-  
+
   chart1: any;
   chart2: any;
 
   constructor() {}
 
   ngOnInit(): void {}
-  
+
   ngAfterViewInit(): void {
     setTimeout(() => {
       if (this.results && this.barChart && this.radarChart) {
@@ -31,21 +31,40 @@ export class ResultsDisplayComponent implements OnInit, AfterViewInit {
       }
     }, 300);
   }
-  
+
   getAlgorithms(): string[] {
     if (!this.results || !this.results.accuracies) return [];
     return Object.keys(this.results.accuracies);
   }
-  
+
   private createBarChart(): void {
     const accuracies = this.results.accuracies;
     const ctx = this.barChart.nativeElement.getContext('2d');
-    
+
     const labels = Object.keys(accuracies);
-    const data = labels.map(key => 
+    const data = labels.map(key =>
       parseFloat(accuracies[key as keyof typeof accuracies].replace('%', ''))
     );
-    
+
+    // Colores en escala de grises
+    const grayColors = [
+      'rgba(26, 26, 26, 0.8)',    // Negro muy oscuro
+      'rgba(64, 64, 64, 0.8)',    // Gris oscuro
+      'rgba(106, 106, 106, 0.8)', // Gris medio
+      'rgba(160, 160, 160, 0.8)', // Gris claro
+      'rgba(200, 200, 200, 0.8)', // Gris muy claro
+      'rgba(230, 230, 230, 0.8)'  // Casi blanco
+    ];
+
+    const grayBorders = [
+      'rgba(26, 26, 26, 1)',
+      'rgba(64, 64, 64, 1)',
+      'rgba(106, 106, 106, 1)',
+      'rgba(160, 160, 160, 1)',
+      'rgba(200, 200, 200, 1)',
+      'rgba(230, 230, 230, 1)'
+    ];
+
     this.chart1 = new Chart(ctx, {
       type: 'bar',
       data: {
@@ -53,23 +72,9 @@ export class ResultsDisplayComponent implements OnInit, AfterViewInit {
         datasets: [{
           label: 'Precisión (%)',
           data: data,
-          backgroundColor: [
-            'rgba(54, 162, 235, 0.7)',
-            'rgba(255, 99, 132, 0.7)',
-            'rgba(255, 206, 86, 0.7)',
-            'rgba(75, 192, 192, 0.7)',
-            'rgba(153, 102, 255, 0.7)',
-            'rgba(255, 159, 64, 0.7)'
-          ],
-          borderColor: [
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 99, 132, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(153, 102, 255, 1)',
-            'rgba(255, 159, 64, 1)'
-          ],
-          borderWidth: 1
+          backgroundColor: grayColors,
+          borderColor: grayBorders,
+          borderWidth: 2
         }]
       },
       options: {
@@ -79,8 +84,10 @@ export class ResultsDisplayComponent implements OnInit, AfterViewInit {
             display: true,
             text: 'Precisión por Algoritmo',
             font: {
-              size: 18
-            }
+              size: 18,
+              weight: 'bold'
+            },
+            color: '#1a1a1a'
           },
           legend: {
             display: false
@@ -90,7 +97,12 @@ export class ResultsDisplayComponent implements OnInit, AfterViewInit {
               label: function(context) {
                 return `Precisión: ${context.parsed.y}%`;
               }
-            }
+            },
+            backgroundColor: 'rgba(26, 26, 26, 0.9)',
+            titleColor: '#ffffff',
+            bodyColor: '#ffffff',
+            borderColor: '#404040',
+            borderWidth: 1
           }
         },
         scales: {
@@ -99,29 +111,49 @@ export class ResultsDisplayComponent implements OnInit, AfterViewInit {
             max: 50,
             title: {
               display: true,
-              text: 'Precisión (%)'
+              text: 'Precisión (%)',
+              color: '#1a1a1a',
+              font: {
+                weight: 'bold'
+              }
+            },
+            ticks: {
+              color: '#4a4a4a'
+            },
+            grid: {
+              color: 'rgba(0, 0, 0, 0.05)'
             }
           },
           x: {
             title: {
               display: true,
-              text: 'Algoritmos'
+              text: 'Algoritmos',
+              color: '#1a1a1a',
+              font: {
+                weight: 'bold'
+              }
+            },
+            ticks: {
+              color: '#4a4a4a'
+            },
+            grid: {
+              color: 'rgba(0, 0, 0, 0.05)'
             }
           }
         }
       }
     });
   }
-  
+
   private createRadarChart(): void {
     const accuracies = this.results.accuracies;
     const ctx = this.radarChart.nativeElement.getContext('2d');
-    
+
     const labels = Object.keys(accuracies);
-    const data = labels.map(key => 
+    const data = labels.map(key =>
       parseFloat(accuracies[key as keyof typeof accuracies].replace('%', ''))
     );
-    
+
     this.chart2 = new Chart(ctx, {
       type: 'radar',
       data: {
@@ -129,13 +161,16 @@ export class ResultsDisplayComponent implements OnInit, AfterViewInit {
         datasets: [{
           label: 'Precisión (%)',
           data: data,
-          backgroundColor: 'rgba(75, 192, 192, 0.2)',
-          borderColor: 'rgba(75, 192, 192, 1)',
-          borderWidth: 2,
-          pointBackgroundColor: 'rgba(75, 192, 192, 1)',
+          backgroundColor: 'rgba(64, 64, 64, 0.2)',
+          borderColor: 'rgba(26, 26, 26, 1)',
+          borderWidth: 3,
+          pointBackgroundColor: 'rgba(26, 26, 26, 1)',
           pointBorderColor: '#fff',
+          pointBorderWidth: 3,
+          pointRadius: 5,
           pointHoverBackgroundColor: '#fff',
-          pointHoverBorderColor: 'rgba(75, 192, 192, 1)'
+          pointHoverBorderColor: 'rgba(26, 26, 26, 1)',
+          pointHoverRadius: 7
         }]
       },
       options: {
@@ -145,8 +180,22 @@ export class ResultsDisplayComponent implements OnInit, AfterViewInit {
             display: true,
             text: 'Comparación de Modelos',
             font: {
-              size: 18
+              size: 18,
+              weight: 'bold'
+            },
+            color: '#1a1a1a'
+          },
+          legend: {
+            labels: {
+              color: '#1a1a1a'
             }
+          },
+          tooltip: {
+            backgroundColor: 'rgba(26, 26, 26, 0.9)',
+            titleColor: '#ffffff',
+            bodyColor: '#ffffff',
+            borderColor: '#404040',
+            borderWidth: 1
           }
         },
         scales: {
@@ -155,7 +204,21 @@ export class ResultsDisplayComponent implements OnInit, AfterViewInit {
             min: 30,
             max: 50,
             ticks: {
-              stepSize: 5
+              stepSize: 5,
+              color: '#4a4a4a',
+              backdropColor: 'transparent'
+            },
+            pointLabels: {
+              color: '#1a1a1a',
+              font: {
+                weight: 'bold'
+              }
+            },
+            grid: {
+              color: 'rgba(0, 0, 0, 0.1)'
+            },
+            angleLines: {
+              color: 'rgba(0, 0, 0, 0.1)'
             }
           }
         }

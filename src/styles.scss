@@ -10,16 +10,53 @@
 body {
   font-family: 'Roboto', Arial, sans-serif;
   line-height: 1.6;
-  color: #333;
-  background-color: #f9fafb;
+  color: #1a1a1a;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
-/* Importación de fuentes (necesario añadir link en index.html) */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+/* Importación de fuentes */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+
+/* Scrollbar personalizada */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #2d2d2d;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #404040, #6a6a6a);
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #6a6a6a, #808080);
+}
+
+/* Estilos de selección de texto */
+::selection {
+  background-color: #1a1a1a;
+  color: white;
+}
+
+::-moz-selection {
+  background-color: #1a1a1a;
+  color: white;
+}
 
 /* Estilos de utilidad */
 .text-center {
   text-align: center;
+}
+
+.text-bold {
+  font-weight: 700;
 }
 
 .mt-1 { margin-top: 0.25rem; }
@@ -34,7 +71,13 @@ body {
 .mb-4 { margin-bottom: 1.5rem; }
 .mb-5 { margin-bottom: 3rem; }
 
-/* Animaciones */
+.p-1 { padding: 0.25rem; }
+.p-2 { padding: 0.5rem; }
+.p-3 { padding: 1rem; }
+.p-4 { padding: 1.5rem; }
+.p-5 { padding: 3rem; }
+
+/* Animaciones globales */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -44,6 +87,158 @@ body {
   }
 }
 
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 .fade-in {
   animation: fadeIn 0.3s ease-in;
+}
+
+.slide-up {
+  animation: slideUp 0.5s ease-out;
+}
+
+.slide-down {
+  animation: slideDown 0.5s ease-out;
+}
+
+.scale-in {
+  animation: scaleIn 0.3s ease-out;
+}
+
+/* Clases de transición */
+.smooth-transition {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.slow-transition {
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Efectos de sombra */
+.shadow-sm {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.shadow-md {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.shadow-lg {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.shadow-xl {
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+/* Efectos de hover globales */
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Glassmorphism utility */
+.glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Gradient backgrounds */
+.gradient-dark {
+  background: linear-gradient(135deg, #1a1a1a, #404040);
+}
+
+.gradient-light {
+  background: linear-gradient(135deg, #ffffff, #f5f5f5);
+}
+
+/* Border radius utilities */
+.rounded-sm { border-radius: 8px; }
+.rounded-md { border-radius: 12px; }
+.rounded-lg { border-radius: 16px; }
+.rounded-xl { border-radius: 20px; }
+.rounded-full { border-radius: 9999px; }
+
+/* Responsive helpers */
+.hide-mobile {
+  @media (max-width: 768px) {
+    display: none !important;
+  }
+}
+
+.hide-desktop {
+  @media (min-width: 769px) {
+    display: none !important;
+  }
+}
+
+/* Focus styles para accesibilidad */
+a:focus,
+button:focus,
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 2px solid #404040;
+  outline-offset: 2px;
+}
+
+/* Mejora de rendimiento */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Prevenir comportamiento no deseado */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+}
+
+input,
+textarea,
+select {
+  font-family: inherit;
 }
